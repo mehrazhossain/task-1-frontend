@@ -1,11 +1,11 @@
 import SideNav from './Pages/Dashboard/SideNav';
-import Home from './Pages/Home/Home';
+import Login from './Pages/Home/Login';
 
 function App() {
   return (
     <div>
-      {/* <Home /> */}
-      <SideNav />
+      <Login />
+      {/* <SideNav /> */}
     </div>
   );
 }
