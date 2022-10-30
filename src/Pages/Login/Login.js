@@ -1,6 +1,38 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmailBlur = (e) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordBlur = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const data = { email, password };
+    const stringifyData = JSON.stringify(data);
+    console.log(stringifyData);
+    // axios POST request
+    const options = {
+      url: 'http://localhost:5000/api/v1/user/login',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      data: stringifyData,
+    };
+
+    axios(options).then((response) => {
+      console.log(response);
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div
@@ -22,7 +54,7 @@ const Login = () => {
           Dashboard Login
         </div>
         <div className="mt-10">
-          <form action="#">
+          <form onSubmit={handleFormSubmit}>
             <div className="flex flex-col mb-5">
               <label
                 htmlFor="email"
@@ -48,6 +80,7 @@ const Login = () => {
                 </div>
 
                 <input
+                  onBlur={handleEmailBlur}
                   id="email"
                   type="email"
                   name="email"
@@ -93,6 +126,7 @@ const Login = () => {
                 </div>
 
                 <input
+                  onBlur={handlePasswordBlur}
                   id="password"
                   type="password"
                   name="password"

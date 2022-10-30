@@ -31,9 +31,9 @@ const Dashboard = () => {
           {/*  Page content here */}
           <label
             htmlFor="my-drawer-2"
-            className="btn btn-primary drawer-button lg:hidden"
+            className="btn btn-primary drawer-button ml-2 lg:hidden"
           >
-            Open drawer
+            Open Sidebar
           </label>
           <Outlet />
         </div>
