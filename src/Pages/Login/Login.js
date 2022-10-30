@@ -42,7 +42,6 @@ const Login = () => {
         // Decode token to get user data
         const decoded = jwt_decode(token);
         localStorage.setItem('currentUser', JSON.stringify(decoded));
-        console.log(decoded);
 
         toast.success('LOGIN SUCCESS');
         navigate('/dashboard');
