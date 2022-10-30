@@ -1,7 +1,20 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import setAuthToken from '../../utils/setAuthToken';
+import jwt_decode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+      navigate('/dashboard');
+    }
+  });
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,25 +25,33 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const data = { email, password };
-    const stringifyData = JSON.stringify(data);
-    console.log(stringifyData);
-    // axios POST request
-    const options = {
-      url: 'http://localhost:5000/api/v1/user/login',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      data: stringifyData,
-    };
 
-    axios(options).then((response) => {
-      console.log(response);
-    });
+    await axios
+      .post('https://mern-authentication.onrender.com/api/v1/login', {
+        email,
+        password,
+      })
+      .then((resp) => {
+        // console.log(resp.data);
+        const { token } = resp.data;
+        localStorage.setItem('jwtToken', token);
+        // Set token to Auth header
+        setAuthToken(token);
+        // Decode token to get user data
+        const decoded = jwt_decode(token);
+        localStorage.setItem('currentUser', JSON.stringify(decoded));
+        console.log(decoded);
+
+        toast.success('LOGIN SUCCESS');
+        navigate('/dashboard');
+      })
+      .catch((err) => {
+        // debugger;
+        console.log(err.response.data);
+        toast.error(err.response.data.message);
+      });
   };
 
   return (
