@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import Products from './Pages/Dashboard/Products';
+import RegisterUser from './Pages/Dashboard/RegisterUser';
 import UpdateProduct from './Pages/Dashboard/UpdateProduct';
 import UpdateUserRole from './Pages/Dashboard/UpdateUserRole';
 import Users from './Pages/Dashboard/Users';
@@ -32,6 +33,10 @@ function App() {
           <Route
             path="/dashboard/user/role/:id"
             element={<UpdateUserRole />}
+          ></Route>
+          <Route
+            path="/dashboard/user/register"
+            element={<RegisterUser />}
           ></Route>
         </Route>
         <Route path="*" element={<NotFound />} />

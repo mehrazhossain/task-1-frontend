@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 const Users = () => {
   const [users, setUsers] = useState();
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
   useEffect(() => {
     fetch('https://mern-authentication.onrender.com/api/v1/user')
       .then((res) => res.json())
@@ -17,6 +20,14 @@ const Users = () => {
         </span>{' '}
         List
       </h2>
+      {currentUser.role == 'admin' ? (
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+          <Link to={'/dashboard/user/register'}>Add User</Link>
+        </button>
+      ) : (
+        ''
+      )}
+
       <table class="max-w-5xl mx-auto table-auto">
         <thead class="justify-between">
           <tr class="bg-gray-50 border-b">
