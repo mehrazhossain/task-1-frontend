@@ -1,74 +1,154 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UpdateProduct = () => {
   const { id } = useParams();
+  const [product, setProduct] = useState();
+
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [desc, setDesc] = useState('');
+
+  useEffect(() => {
+    fetch(`https://mern-authentication.onrender.com/api/v1/product/${id}`)
+      .then((res) => res.json())
+      .then((data) => setProduct(data.data));
+  }, []);
+
+  // get all input data using onblur
+  const handleProductBlur = (e) => {
+    setName(e.target.value);
+  };
+  const handlePriceBlur = (e) => {
+    setPrice(e.target.value);
+  };
+  const handleQuantityBlur = (e) => {
+    setQuantity(e.target.value);
+  };
+
+  const handleDescBlur = (e) => {
+    setDesc(e.target.value);
+  };
+
+  const updatedData = {
+    name: name.length === 0 ? product?.name : name,
+    price: price.length === 0 ? product?.price : price,
+    quantity: quantity?.length === 0 ? product?.quantity : quantity,
+    desc: desc.length === 0 ? product?.description : desc,
+  };
+
+  // Handle Form Submit
+  const handleUpdateForm = (e) => {
+    e.preventDefault();
+
+    const url = `https://mern-authentication.onrender.com/api/v1/product/${product._id}`;
+
+    axios
+      .patch(url, updatedData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        if (response.status == 200) {
+          // toast.success('Data Updated');
+        }
+      })
+      .catch((error) => {
+        // toast.error('Data Updated');
+      });
+  };
 
   return (
     <div>
-      <form class="w-full max-w-lg">
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full px-3">
+      <h1 className="text-3xl font-semibold text-gray-700 ml-10 my-4">
+        Update Product Info
+      </h1>
+      <form onSubmit={handleUpdateForm} className="w-full max-w-lg">
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3 mt-5">
             <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-password"
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-password"
             >
-              Nickname
+              Product Name
             </label>
             <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               id="nick"
+              onBlur={handleProductBlur}
+              defaultValue={product?.name}
+              name="name"
               type="text"
             />
-            <p class="text-gray-600 text-xs italic">Remove if not needed</p>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full px-3">
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3">
             <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-password"
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-password"
             >
-              E-mail
+              Price
             </label>
             <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="email"
-              type="email"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id=""
+              defaultValue={product?.price}
+              onBlur={handlePriceBlur}
+              name="price"
+              type="number"
             />
-            <p class="text-gray-600 text-xs italic">
-              Some tips - as long as needed
-            </p>
           </div>
         </div>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full px-3">
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3">
             <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-password"
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-password"
             >
-              Message
+              Quantity
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id=""
+              defaultValue={product?.quantity}
+              onBlur={handleQuantityBlur}
+              name="quantity"
+              type="number"
+            />
+          </div>
+        </div>
+        <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-3">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="grid-password"
+            >
+              Product Description
             </label>
             <textarea
-              class=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
-              id="message"
+              className=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
+              id=""
+              defaultValue={product?.description}
+              onBlur={handleDescBlur}
+              name="description"
             ></textarea>
-            <p class="text-gray-600 text-xs italic">
-              Re-size can be disabled by set by resize-none / resize-y /
-              resize-x / resize
-            </p>
           </div>
         </div>
-        <div class="md:flex md:items-center">
-          <div class="md:w-1/3">
+        <div className="md:flex md:items-center">
+          <div className="md:w-1/3">
             <button
-              class="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              type="button"
+              className="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              type="submit"
             >
-              Send
+              Update
             </button>
           </div>
-          <div class="md:w-2/3"></div>
+          <div className="md:w-2/3"></div>
         </div>
       </form>
     </div>
