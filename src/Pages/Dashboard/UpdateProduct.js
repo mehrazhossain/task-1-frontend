@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const UpdateProduct = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState();
 
@@ -54,6 +55,7 @@ const UpdateProduct = () => {
       })
       .then((response) => {
         if (response.status == 200) {
+          navigate('/dashboard/products');
           // toast.success('Data Updated');
         }
       })
@@ -142,7 +144,7 @@ const UpdateProduct = () => {
         <div className="md:flex md:items-center">
           <div className="md:w-1/3">
             <button
-              className="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="shadow bg-blue-600 hover:bg-blue-700 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               type="submit"
             >
               Update

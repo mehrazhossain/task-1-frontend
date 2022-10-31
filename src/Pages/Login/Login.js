@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import setAuthToken from '../../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +47,7 @@ const Login = () => {
       })
       .catch((err) => {
         // debugger;
-        toast.error(err.response.data.message);
+        // toast.error(err.response.data.message);
       });
   };
 
