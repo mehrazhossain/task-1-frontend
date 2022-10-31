@@ -48,7 +48,6 @@ const Login = () => {
       })
       .catch((err) => {
         // debugger;
-        console.log(err.response.data);
         toast.error(err.response.data.message);
       });
   };
