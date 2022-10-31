@@ -40,9 +40,9 @@ const UpdateUserRole = () => {
       <h1 className="text-2xl font-semibold my-10 text-gray-600">
         Update User Role
       </h1>
-      <label class="block">
-        <span class="text-gray-700">Please select a role</span>
-        <select onChange={handleChange} class="form-select block w-96 mt-1">
+      <label className="block">
+        <span className="text-gray-700">Please select a role</span>
+        <select onChange={handleChange} className="form-select block w-96 mt-1">
           <option value={'admin'}>admin</option>
           <option value={'editor'}>editor</option>
         </select>
@@ -56,7 +56,7 @@ const UpdateUserRole = () => {
         </button>
       ) : (
         <h1 className="text-red-600 my-10 font-semibold">
-          Your not authorized to change the user role
+          Your're not authorized to change the user role
         </h1>
       )}
     </div>
